@@ -11,6 +11,7 @@ import {
   FaTriangleExclamation,
 } from "react-icons/fa6";
 import { IoInformationCircle } from "react-icons/io5";
+import { toast } from "sonner";
 
 enum OrderStatus {
   Processing = "Processing",
@@ -33,6 +34,18 @@ const dummyOrderData = {
   estimatedDelivery: "Today, 2:30 PM",
   summary: "1x Widget A, 2x Widget B",
   supportContact: "support@example.com",
+};
+
+const handleContactSupport = () => {
+  try {
+    navigator.clipboard.writeText(dummyOrderData.supportContact).then(
+      () => {
+        toast.success("Support email copied to clipboard!");
+      }
+    );
+  } catch {
+    toast.error("Failed to copy email. Please try again.");
+  }
 };
 
 function OrderTrackinScreenClientPage() {
@@ -429,15 +442,18 @@ function OrderTrackinScreenClientPage() {
                   <div className="mt-3 flex flex-wrap gap-2">
                     <button
                       type="button"
+                      onClick={handleContactSupport}
                       aria-label="Contact customer support"
                       className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2"
                     >
                       <FaHeadset aria-hidden="true" />
                       Contact support
+                      {/* Either redirect kore dibe ekta mail template e or give an alert that support email has been copied */}
                     </button>
 
                     <button
                       type="button"
+                      onClick={handleContactSupport}
                       aria-label={`Email support at ${order.supportContact}`}
                       className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2"
                     >
